@@ -10,6 +10,9 @@ cluster-configs:
     servicePort: 8080
     appRoot: ""
     cert-issuer: "letsencrypt-prod"
+    
+  git-sync:
+    namespace: monitoring  
 
 jenkins:
   persistence:
@@ -41,29 +44,28 @@ jenkins:
         - egovernments*mgramseva-team
         - egovernments*fsm-uat
         - egovernments*health-dev
+        - egovernments*single-instance
+        - egovernments*works
+        - egovernments*mgramsewa-dev
+        - egovernments*mgramsewa-qa
+        - egovernments*mgramsewa-uat
+        - egovernments*bihar-mgramseva-uat
+        - egovernments*health-dev
 
   jobBuilder:
     repos: >-
-      'git@github.com:egovernments/core-services.git','git@github.com:egovernments/business-services.git','git@github.com:egovernments/municipal-services.git','git@github.com:egovernments/utilities.git','git@github.com:egovernments/frontend.git','git@github.com:egovernments/DIGIT-Dev.git', 'git@github.com:egovernments/eGov-Punjab-Implementation.git', 'git@github.com:egovernments/covid-backend.git','git@github.com:egovernments/requester-dashboard.git','git@github.com:egovernments/approver-dashboard.git','git@github.com:egovernments/ukd-rainmaker-customization.git','git@github.com:egovernments/punjab-rainmaker-customization.git', 'git@github.com:egovernments/egov-coexistence.git','git@github.com:egovernments/eGov-UP-Implementation.git', 'git@github.com:egovernments/test-automation.git', 'git@github.com:egovernments/CoronaSafe.git', 'git@github.com:egovernments/egov-dcr-client.git', 'git@github.com:egovernments/eGov-dcr-service.git', 'git@github.com:eNagarsewaU/DIGIT-UKD.git', 'git@github.com:upyog/UPYOG.git', 'git@github.com:egovernments/digit-ui.git', 'git@github.com:egovernments/DIGIT-Works.git', 'git@github.com:digit-egov/health-DIGIT-OSS.git'
+      'git@github.com:egovernments/core-services.git','git@github.com:egovernments/business-services.git','git@github.com:egovernments/municipal-services.git','git@github.com:egovernments/utilities.git','git@github.com:egovernments/frontend.git','git@github.com:egovernments/DIGIT-Dev.git', 'git@github.com:egovernments/eGov-Punjab-Implementation.git', 'git@github.com:egovernments/covid-backend.git','git@github.com:egovernments/requester-dashboard.git','git@github.com:egovernments/approver-dashboard.git','git@github.com:eNagarsewaU/ukd-rainmaker-customization.git','git@github.com:egovernments/punjab-rainmaker-customization.git', 'git@github.com:egovernments/egov-coexistence.git','git@github.com:egovernments/eGov-UP-Implementation.git', 'git@github.com:egovernments/test-automation.git', 'git@github.com:egovernments/CoronaSafe.git', 'git@github.com:egovernments/egov-dcr-client.git', 'git@github.com:egovernments/eGov-dcr-service.git', 'git@github.com:eNagarsewaU/DIGIT-UKD.git', 'git@github.com:upyog/UPYOG.git', 'git@github.com:egovernments/digit-ui.git', 'git@github.com:egovernments/DIGIT-Works.git', 'git@github.com:egovernments/health-campaign-services.git','git@github.com:egovernments/punjab-mgramseva.git','git@github.com:egovernments/SANITATION.git','git@github.com:egovernments/Core-Platform.git','git@github.com:egovernments/iFix-Dev.git','git@github.com:egovernments/bihar-mgramseva.git','git@github.com:egovernments/HCM-Mozambique-Implementation.git'
   deploymentJobs:
     - name: dev
       acl: [egovernments*micro-service-dev]
-    - name: pb-prod
-      acl: [egovernments*PB-PROD]
+    - name: unified-dev
+      acl: [egovernments*micro-service-dev]
     - name: bihar-prod
       acl: [egovernments*bihar-prod]
     - name: bihar-dev
       acl: [egovernments*bihar-dev]
     - name: bihar-uat
       acl: [egovernments*bihar-uat]
-    - name: epass-uat
-      acl: [egovernments*epass]
-    - name: epass-micro-prod
-      acl: [egovernments*epass-micro-prod]
-    - name: pb-qa
-      acl: [egovernments*pb-uat]  
-    - name: pb-uat
-      acl: [egovernments*pb-uat]   
     - name: qa
       acl: [egovernments*micro-service-qa] 
     - name: uat
@@ -73,11 +75,7 @@ jenkins:
     - name: ukd-prod-sdc
       acl: [egovernments*ukd-prod] 
     - name: ukd-sdc-uat
-      acl: [egovernments*ukd-uat]    
-    - name: pb-uat-v2
-      acl: [egovernments*pb-uat]     
-    - name: pb-prod-v2
-      acl: [egovernments*PB-PROD]             
+      acl: [egovernments*ukd-uat]                 
     - name: ci
       acl: [egovernments*micro-service-devops]      
     - name: ukd-dev-sdc
@@ -90,6 +88,8 @@ jenkins:
       acl: [egovernments*micro-service-dev,egovernments*micro-service-qa]
     - name: statea
       acl: [egovernments*micro-service-dev,egovernments*micro-service-qa]
+    - name: digit
+      acl: [egovernments*micro-service-dev,egovernments*micro-service-qa]
     - name: stateb
       acl: [egovernments*micro-service-dev,egovernments*micro-service-qa]    
     - name: fsm-uat
@@ -100,7 +100,40 @@ jenkins:
       acl: [egovernments*works]
     - name: health-dev
       acl: [egovernments*health-dev]
- 
+    - name: works-qa
+      acl: [egovernments*works]
+    - name: upyog-uat
+      acl: [egovernments*nugp-team]
+    - name: single-instance
+      acl: [egovernments*single-instance]
+    - name: upyog-test
+      acl: [egovernments*nugp-team]
+    - name: upyog-dev
+      acl: [egovernments*nugp-team]
+    - name: health-qa
+      acl: [egovernments*health-dev]
+    - name: health-demo
+      acl: [egovernments*health-dev]
+    - name: mgramseva-dev
+      acl: [egovernments*mgramsewa-dev]
+    - name: ifix-dev
+      acl: [egovernments*mgramsewa-dev]  
+    - name: mgramseva-qa
+      acl: [egovernments*mgramsewa-qa,egovernments*mgramsewa-dev]  
+    - name: pspcl-qa
+      acl: [egovernments*mgramsewa-qa,egovernments*mgramsewa-dev]  
+    - name: pspcl-ifix-uat
+      acl: [egovernments*mgramsewa-uat]
+    - name: ifix-qa
+      acl: [egovernments*mgramsewa-qa,egovernments*mgramsewa-dev]
+    - name: mgramseva-uat
+      acl: [egovernments*mgramsewa-uat]
+    - name: ifix-uat
+      acl: [egovernments*mgramsewa-uat]
+    - name: bihar-mgramseva-uat
+      acl: [egovernments*bihar-mgramseva-uat]
+    - name: moz-health-dev
+      acl: [egovernments*health-dev,egovernments*micro-service-devops]
 
   deployjobBuilder:
     repo: >-
@@ -112,9 +145,9 @@ jenkins:
       enabled: true
     resources:
       limits:
-        cpu: "2000m"
-        memory: "4096Mi"
-    javaOpts: "-Xms2560M -Xmx2560M -Duser.timezone=Asia/Calcutta"
+        cpu: "2500m"
+        memory: "5120Mi"
+    javaOpts: "-Xms3100M -Xmx3100M -Duser.timezone=Asia/Calcutta"
 
 nginx-ingress:
   replicas: 1
@@ -145,3 +178,54 @@ cluster-autoscaler:
 postgres:
   namespace: jenkins
   postgresDatabase: ci_database
+
+grafana: 
+  image:
+    repository: grafana/grafana
+    tag: 9.0.0
+
+  initContainers:
+    gitSync:
+      enabled: true
+      repo: "git@github.com:egovernments/monitoring"
+      branch: "master"
+
+  ingress:
+    hostName: monitoring.digit.org 
+    context: ""
+    additionalAnnotations: | 
+
+  grafana.ini:
+    server:
+      root_url: "%(protocol)s://%(domain)s"
+      serve_from_sub_path: true 
+
+  env: |
+    - name: GF_SERVER_DOMAIN
+      value: {{ .Values.ingress.hostName | quote }}    
+
+  datasources: 
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: DIGIT-Dev
+        type: prometheus
+        url: https://prometheus-dev.digit.org
+        isDefault: false 
+      - name: DIGIT-QA
+        type: prometheus
+        url: https://prometheus-qa.digit.org
+        isDefault: false
+      - name: DIGIT-UAT
+        type: prometheus
+        url: https://prometheus-uat.digit.org
+        isDefault: false
+      - name: DIGIT-Staging
+        type: prometheus
+        url: https://prometheus-staging.digit.org
+        isDefault: false
+    
+     
+
+
+       
