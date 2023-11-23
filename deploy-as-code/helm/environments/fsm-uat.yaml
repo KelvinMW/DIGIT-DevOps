@@ -38,6 +38,7 @@ cluster-configs:
         domain: "fsm-2.3.digit.org"
         egov-services-fqdn-name: "https://fsm-2.3.digit.org/"
         egov-state-level-tenant-id: "pg"
+        state-level-tenant-id: "pg"
         es-host: "elasticsearch-data-v1.es-cluster"
         es-indexer-host: "http://elasticsearch-data-v1.es-cluster:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
@@ -57,6 +58,7 @@ cluster-configs:
         tracer-errors-provideexceptionindetails: "true"
         timezone: "Asia/Kolkata"
         es-infra-host: elasticsearch-data-v1.es-cluster
+        egov-internal-microservice-user-uuid: "e1f57dfe-35a0-494a-911d-22cd3f786612"
 
     egov-service-host:
       data:
@@ -210,8 +212,8 @@ egov-user:
   otp-validation: "true"
   citizen-otp-enabled: "true"
   employee-otp-enabled: "false"
-  access-token-validity: 60
-  refresh-token-validity: 60
+  access-token-validity: 10080
+  refresh-token-validity: 20160
   default-password-expiry: 90
   mobile-number-validation: "false"
   roles-state-level: "true"

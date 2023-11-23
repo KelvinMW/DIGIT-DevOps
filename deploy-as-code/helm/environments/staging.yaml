@@ -37,6 +37,7 @@ cluster-configs:
         domain: "staging.digit.org"
         egov-services-fqdn-name: "https://staging.digit.org/"
         egov-state-level-tenant-id: "pg"
+        state-level-tenant-id: "pg"
         es-host: "elasticsearch-data-v1.es-cluster"
         es-indexer-host: "http://elasticsearch-data-v1.es-cluster:9200/"
         flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
@@ -191,7 +192,9 @@ egov-filestore:
 
 egov-location:
   memory_limits: 512Mi
-
+  
+egov-localization:
+  replicas: 2
 egov-notification-mail:
   replicas: 1
   
@@ -324,7 +327,7 @@ egov-persister:
 
 national-dashboard-ingest:
   heap: "-Xmx750m -Xms750m"
-  replicas: 5
+  replicas: 2
   server-tomcat-max-threads: 25
   module-index-mapping: '{"PT": "pt-national-dashboard", "PGR": "pgr-national-dashboard", "WS": "ws-national-dashboard", "FIRENOC": "firenoc-national-dashboard", "TL": "tl-national-dashboard", "MCOLLECT": "mcollect-national-dashboard", "OBPS": "obps-national-dashboard", "COMMON": "common-national-dashboard", "BPA": "bpa-national-dashboard","BIRTH":"birth-cert-national-dashboard"}'
   master-data-index: "master-national-dashboard"
@@ -474,6 +477,7 @@ egf-masters:
   memory_limits: 512Mi
 
 egf-master:
+  replicas: 2
   db-url: "jdbc:postgresql://egov-dev-db.ctm6jbmr5mnj.ap-south-1.rds.amazonaws.com:5432/egov_staging_db"
   memory_limits: 512Mi
   heap: "-Xmx256m -Xms256m"
@@ -498,7 +502,7 @@ zuul:
   server-tomcat-max-threads: "350"
   server-tomcat-max-connections: "1500"
   egov-open-endpoints-whitelist: "/user/oauth/token,/user-otp/v1/_send,/otp/v1/_validate,/user/citizen/_create,/localization/messages,/localization/messages/v1/_search,/user/password/nologin/_update,/pgr/servicedefinition/v1/_search,/pgr/servicecategories/v1/_search,/pgr/v1/otp/_send,/pgr-master/receivingmode/v1/_search,/tenant/v1/tenant/_search,/egov-location/boundarys,/egov-location/boundarys/boundariesByBndryTypeNameAndHierarchyTypeName,/pgr-master/service/v1/_search,/egov-location/boundarys/getLocationByLocationName,/pgr-master/OTPConfig/_search,/pgr-master/serviceGroup/v1/_search,/egov-location/boundarys/isshapefileexist,/pgr/services/v1/_search,/hr-masters/hrconfigurations/_search,/collection-services/receipts/_view,/pgr-master/service/v2/_search,/pgr-master/servicedefinition/v1/_search,/citizen-services,/citizen-services/v1/requests/receipt/_create,/citizen-services/v1/pgresponse,/citizen-services/v1/requests/anonymous/_search,/egov-mdms-service/v1/_search,/egov-mdms-service/v1/_get,/egov-mdms-service/v1/_reload,/egov-mdms-service/v1/_reloadobj,/egov-location/boundarys/getshapefile,/egov-indexer/index-operations/_index,/egov-indexer/index-operations/_reload,/egov-mdms-service-test/v1/_search,/egov-mdms-create/v1/_update,/egov-mdms-create/v1/_create,/egov-mdms-service-test/v1/_reload,/filestore/v1/files/url,/egov-url-shortening,/whatsapp-webhook/messages,/edcr/rest/dcr/downloadfile,/dashboard-ingest/ingest/upload,/egov-searcher/water-services/wateropensearch/_get,/egov-searcher/sewerage-services/sewerageopensearch/_get,/xstate-chatbot/status,/xstate-chatbot/reminder,/nlp-engine/fuzzy/city,/nlp-engine/fuzzy/locality,/demo-utility/_createdemousers"
-  egov-mixed-mode-endpoints-whitelist: "/pgr/seva/v1/_create,/pgr/seva/v1/_search,/pgr/seva/v1/_count,/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tag,/egov-common-masters/departments/_search,/pt-property/property/propertytypes/_search,/pt-property/properties/_search,/pt-property/property/usages/_search,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/egov-common-workflows/process/_start,/egov-common-workflows/process/_search,/egov-common-workflows/tasks,/egov-common-workflows/tasks/{id}/_update,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/wcms/masters/waterchargesconfig/_search,/wcms/masters/usagetypes/_search,/wcms/masters/pipesizes/_search,/wcms-connection/connection/_getbillingtypes,/wcms-connection/connection/_getconnectiontypes,/wcms/masters/sourcetypes/_search,/wcms/masters/supplytypes/_search,/wcms/masters/storagereservoirs/_search,/wcms/masters/treatmentplants/_search,/wcms/masters/documenttypes-applicationtypes/_search,/wcms/masters/donations/_search,/wcms/masters/nonmeterwaterrates/_search,/wcms-connection/connection/_create,/egov-common-masters/genders/_search,/egov-common-workflows/designations/_search,/access/v1/actions/mdms/_get,/tl-services/v1/BPAREG/_create,/tl-services/v1/BPAREG/_update,/tl-calculator/v1/BPAREG/_getbill,/property-services/property/_search,/billing-service/bill/v2/_search,/egov-location/location/v11/boundarys/_search,/pg-service/transaction/v1/_create,/collection-services/payments/_search,/pdf-service/v1/_create,/billing-service/bill/v2/_fetchbill,/pg-service/transaction/v1/_update,/ws-services/wc/_search,/sw-services/swc/_search,/edcr/rest/dcr/scrutinydetails,/edcr/rest/dcr/occomparison,/egov-pdf/download/PAYMENT/consolidatedreceipt,/collection-services/payments/PT/_search,/collection-services/payments/WS/_search,/collection-services/payments/SW/_search,/collection-services/payments/WS.ONE_TIME_FEE/_search,/collection-services/payments/SW.ONE_TIME_FEE/_search,/turn-io-adapter/_transform,/egov-user-event/v1/events/_search"
+  egov-mixed-mode-endpoints-whitelist: "/pgr/seva/v1/_create,/pgr/seva/v1/_search,/pgr/seva/v1/_count,/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tag,/egov-common-masters/departments/_search,/pt-property/property/propertytypes/_search,/pt-property/properties/_search,/pt-property/property/usages/_search,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/egov-common-workflows/process/_start,/egov-common-workflows/process/_search,/egov-common-workflows/tasks,/egov-common-workflows/tasks/{id}/_update,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/wcms/masters/waterchargesconfig/_search,/wcms/masters/usagetypes/_search,/wcms/masters/pipesizes/_search,/wcms-connection/connection/_getbillingtypes,/wcms-connection/connection/_getconnectiontypes,/wcms/masters/sourcetypes/_search,/wcms/masters/supplytypes/_search,/wcms/masters/storagereservoirs/_search,/wcms/masters/treatmentplants/_search,/wcms/masters/documenttypes-applicationtypes/_search,/wcms/masters/donations/_search,/wcms/masters/nonmeterwaterrates/_search,/wcms-connection/connection/_create,/egov-common-masters/genders/_search,/egov-common-workflows/designations/_search,/access/v1/actions/mdms/_get,/tl-services/v1/BPAREG/_create,/tl-services/v1/BPAREG/_update,/tl-calculator/v1/BPAREG/_getbill,/billing-service/bill/v2/_search,/egov-location/location/v11/boundarys/_search,/pg-service/transaction/v1/_create,/collection-services/payments/_search,/pdf-service/v1/_create,/billing-service/bill/v2/_fetchbill,/pg-service/transaction/v1/_update,/ws-services/wc/_search,/sw-services/swc/_search,/edcr/rest/dcr/scrutinydetails,/edcr/rest/dcr/occomparison,/egov-pdf/download/PAYMENT/consolidatedreceipt,/collection-services/payments/PT/_search,/collection-services/payments/WS/_search,/collection-services/payments/SW/_search,/collection-services/payments/WS.ONE_TIME_FEE/_search,/collection-services/payments/SW.ONE_TIME_FEE/_search,/turn-io-adapter/_transform,/egov-user-event/v1/events/_search"
   eventlog-enabled: "true"
   eventlog-topic: "zuul-event-log" 
   eventlog-whitelist: "/pt-calculator-v2,/pt-services-v2,/tl-services,/tl-calculator,/rainmaker-pgr,/billing-service,/collection-services,/pg-service"
@@ -612,7 +616,8 @@ egov-apportion-service:
 inbox:
   service-map : '{"FSM":{"searchPath":"http://fsm.egov:8080/fsm/v1/_search","dataRoot":"fsm","applNosParam":"applicationNos","businessIdProperty":"applicationNo"},"FSM_POST_PAY_SERVICE":{"searchPath":"http://fsm.egov:8080/fsm/v1/_search","dataRoot":"fsm","applNosParam":"applicationNos","businessIdProperty":"applicationNo","applsStatusParam":"applicationStatus"},"FSM_VEHICLE_TRIP":{"searchPath":"http://vehicle.egov:8080/vehicle/trip/v1/_search","dataRoot":"vehicleTrip","applNosParam":"applicationNos","businessIdProperty":"applicationNo"},"PT.CREATE,PT.UPDATE,PT.MUTATION":{"searchPath":"http://property-services.egov:8080/property-services/property/_search","dataRoot":"Properties","applNosParam":"acknowldgementNumber","businessIdProperty":"acknowldgementNumber","applsStatusParam":"status"},"NewTL,DIRECTRENEWAL,EDITRENEWAL":{"searchPath":"http://tl-services.egov:8080/tl-services/v1/_search","dataRoot":"Licenses","applNosParam":"applicationNumber","businessIdProperty":"applicationNumber","applsStatusParam":"status"},"BPA_LOW,BPA,BPA_OC,BPA_HIGH":{"searchPath":"http://bpa-services.egov:8080/bpa-services/v1/bpa/_search","dataRoot":"BPA","applNosParam":"applicationNo","businessIdProperty":"applicationNo","applsStatusParam":"status"},"ARCHITECT,ENGINEER,STRUCTURALENGINEER,BUILDER,SUPERVISOR,TOWNPLANNER":{"searchPath":"http://tl-services.egov:8080/tl-services/v1/BPAREG/_search","dataRoot":"Licenses","applNosParam":"applicationNumber","businessIdProperty":"applicationNumber","applsStatusParam":"status"},"FIRE_NOC_SRV,FIRE_NOC_OFFLINE,AIRPORT_NOC_OFFLINE,AIRPORT_NOC_SRV":{"searchPath":"http://noc-services.egov:8080/noc-services/v1/noc/_search","dataRoot":"Noc","applNosParam":"applicationNo","businessIdProperty":"applicationNo","applsStatusParam":"status"},"NewWS1,ModifyWSConnection,DisconnectWSConnection":{"searchPath":"http://ws-services.egov:8080/ws-services/wc/_search","dataRoot":"WaterConnection","applNosParam":"applicationNumber","businessIdProperty":"applicationNo","applsStatusParam":"applicationStatus"},"NewSW1,ModifySWConnection,DisconnectSWConnection":{"searchPath":"http://sw-services.egov:8080/sw-services/swc/_search","dataRoot":"SewerageConnections","applNosParam":"applicationNumber","businessIdProperty":"applicationNo","applsStatusParam":"applicationStatus"},"WS.AMENDMENT,SW.AMENDMENT":{"searchPath":"http://billing-service.egov:8080/billing-service/amendment/_search","dataRoot":"Amendments","applNosParam":"consumerCode","businessIdProperty":"amendmentId","applsStatusParam":"status"}}'
   bs-service-map : '{"WS":{"searchPath":"http://ws-services.egov:8080/ws-services/wc/_search","dataRoot":"WaterConnection","consumerCodeParam":"connectionNumber"},"SW":{"searchPath":"http://sw-services.egov:8080/sw-services/swc/_search","dataRoot":"SewerageConnections","consumerCodeParam":"connectionNumber"}}'
-
+  water-es-index : water-services
+  sewerage-es-index : sewerage-services
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 # configMaps >>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -919,6 +924,21 @@ microservice: |
   filestoreservice.beanname=egovMicroServiceStore
   mdms.enable=false
   mdms.host=https://staging.digit.org
+  egov.default.services.endpoint=https://staging.digit.org/
+  egov.collection.version={{ index .Values "collection-version" }}
+  egov.hrms.service.endpoint=http://egov-hrms.egov:8080/
+  egov.accesscontrol.service.endpoint=http://egov-accesscontrol.egov:8080/
+  egov.hr.masters.service.endpoint=http://hr-masters.egov:8080/
+  egov.user.service.endpoint=http://egov-user.egov:8080/
+  egov.common.masters.endpoint=http://egov-common-masters.egov:8080/
+  egov.billing.service.endpoint=http://billing-service.egov:8080/
+  egov.collection.service.endpoint=http://collection-services.egov:8080/
+  egov.egf.master.service.endpoint=http://egf-master.egov:8080/
+  egov.egf.instrument.service.endpoint=http://egf-instrument.egov:8080/
+  egov.mdms.service.endpoint=http://egov-mdms-service.egov:8080/
+  egov.indexer.service.endpoint=http://egov-indexer.egov:8080/
+  egov.services.billing.service.bill.generate=billing-service/bill/v2/_fetchbill
+  egov.filestore.service.endpoint=http://egov-filestore.egov:8080/
 
 
 ws-services:
@@ -956,22 +976,6 @@ financeTenants: |
 egov-finance:
   dev_mode: true
   filestore_beanname: microDiskFileStoreService
-  microservice: |
-    egov.default.services.endpoint=https://staging.digit.org/
-    egov.collection.version={{ index .Values "collection-version" }}
-    egov.hrms.service.endpoint=http://egov-hrms.egov:8080/
-    egov.accesscontrol.service.endpoint=http://egov-accesscontrol.egov:8080/
-    egov.hr.masters.service.endpoint=http://hr-masters.egov:8080/
-    egov.user.service.endpoint=http://egov-user.egov:8080/
-    egov.common.masters.endpoint=http://egov-common-masters.egov:8080/
-    egov.billing.service.endpoint=http://billing-service.egov:8080/
-    egov.collection.service.endpoint=http://collection-services.egov:8080/
-    egov.egf.master.service.endpoint=http://egf-master.egov:8080/
-    egov.egf.instrument.service.endpoint=http://egf-instrument.egov:8080/
-    egov.mdms.service.endpoint=http://egov-mdms-service.egov:8080/
-    egov.indexer.service.endpoint=http://egov-indexer.egov:8080/
-    egov.services.billing.service.bill.generate=billing-service/bill/v2/_fetchbill
-    egov.filestore.service.endpoint=http://egov-filestore.egov:8080/
 
 # nlp-engine >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 nlp-engine:
